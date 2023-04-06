@@ -11,14 +11,14 @@ export default {
     screens: {
       Root: {
         screens: {
-          RollDice: {
+          Game: {
             screens: {
-              RollDiceScreen: "rolldice",
+              GameScreen: "game",
             },
           },
-          CoinFlip: {
+          Profile: {
             screens: {
-              CoinFlipScreen: "coinflip",
+              ProfileScreen: "profile",
             },
           },
         },

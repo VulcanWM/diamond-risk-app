@@ -1,26 +1,12 @@
 import { StyleSheet } from "react-native";
 
 import { Text, View, TouchableOpacity } from "../components/Themed";
-import { useState } from "react"
 
-export default function TabOneScreen() {
-  const first_random_number = Math.floor(Math.random() * 6) + 1;
-  const [randomNumber, setRandomNumber] = useState(first_random_number)
-  function reroll(){
-    var dice_roll = Math.floor(Math.random() * 6) + 1;
-    setRandomNumber(dice_roll)
-  }
+export default function GameScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Roll a Dice</Text>
+      <Text style={styles.title}>Diamond Risk</Text>
       <Text>{'\n'}</Text>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={reroll}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Reroll dice</Text>
-      </TouchableOpacity>
-      <Text>{'\n'}</Text>
-      <View style={styles.square}>
-        <Text style={styles.diceNumber}>{randomNumber}</Text>
-      </View>
     </View>
   );
 }

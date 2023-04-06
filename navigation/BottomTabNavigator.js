@@ -6,8 +6,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
-import RollDiceScreen from "../screens/RollDiceScreen";
-import CoinFlipScreen from "../screens/CoinFlipScreen";
+import GameScreen from "../screens/GameScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -16,12 +16,12 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="RollDice"
+      initialRouteName="Game"
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="RollDice"
-        component={RollDiceNavigator}
+        name="Game"
+        component={GameNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -30,8 +30,8 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="CoinFlip"
-        component={CoinFlipNavigator}
+        name="Profile"
+        component={ProfileNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -51,30 +51,30 @@ function TabBarIcon(props) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const RollDiceStack = createStackNavigator();
+const GameStack = createStackNavigator();
 
-function RollDiceNavigator() {
+function GameNavigator() {
   return (
-    <RollDiceStack.Navigator>
-      <RollDiceStack.Screen
-        name="RollDiceScreen"
-        component={RollDiceScreen}
-        options={{ headerTitle: "Roll Dice" }}
+    <GameStack.Navigator>
+      <GameStack.Screen
+        name="GameScreen"
+        component={GameScreen}
+        options={{ headerTitle: "Diamond Risk" }}
       />
-    </RollDiceStack.Navigator>
+    </GameStack.Navigator>
   );
 }
 
-const CoinFlipStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
-function CoinFlipNavigator() {
+function ProfileNavigator() {
   return (
-    <CoinFlipStack.Navigator>
-      <CoinFlipStack.Screen
-        name="CoinFlipScreen"
-        component={CoinFlipScreen}
-        options={{ headerTitle: "Coin Flip" }}
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerTitle: "Profile" }}
       />
-    </CoinFlipStack.Navigator>
+    </ProfileStack.Navigator>
   );
 }
