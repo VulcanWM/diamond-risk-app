@@ -1,27 +1,36 @@
 import { StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View, TouchableOpacity, Alert } from "../components/Themed";
+import { Text, View, TouchableOpacity } from "../components/Themed";
 import { useEffect, useState } from "react";
 
 
 
 export default function ProfileScreen() {
   const [score, setScore] = useState(0);
+  const [highscore, setHighscore] = useState(0)
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchScoreData = async () => {
       const value = await AsyncStorage.getItem('score')
       if (value != null){
         setScore(value)
       }
     }
-    fetchData()
+    const fetchHighScoreData = async () => {
+      const value = await AsyncStorage.getItem('highscore')
+      if (value != null){
+        setHighscore(value)
+      }
+    }
+    fetchScoreData()
+    fetchHighScoreData()
   }, [])
   
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Profile</Text>
       <Text>{'\n'}</Text>
-      <Text>Score: {score}</Text>
+      <Text>Current Score: {score}</Text>
+      <Text>Highscore: {highscore}</Text>
     </View>
   );
 }
