@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function GameScreen() {
   const [score, setScore] = useState(0);
   const [highscore, setHighscore] = useState(0)
+  const [msg, setMsg] = useState("")
   useEffect(() => {
     const fetchScoreData = async () => {
       const value = await AsyncStorage.getItem('score')
@@ -39,6 +40,10 @@ export default function GameScreen() {
       // saving error
     }
   }
+  function resetScore(){
+    setScore(0)
+    saveScore("0")
+  }
   function increaseScore(num){
     var newScore = score + num
     setScore(newScore)
@@ -48,15 +53,53 @@ export default function GameScreen() {
       saveHighScore(newScore.toString())
     }
   }
+  function oneDiamond(){
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(1)
+      setMsg("You successfully caught 1 diamond!")
+    }
+  }
+  function fiveDiamonds(){
+    let randomNumber = Math.floor(Math.random() * 20) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(5)
+      setMsg("You successfully caught 5 diamonds!")
+    }
+  }
+  function tenDiamonds(){
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(10)
+      setMsg("You successfully caught 10 diamonds!")
+    }
+  }
   
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Diamond Risk</Text>
       <Text>{'\n'}</Text>
+      <Text>{msg}</Text>
+      <Text>{'\n'}</Text>
       <Text>Score: {score}</Text>
       <Text>{'\n'}</Text>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={() => increaseScore(10)}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Add 10 to score</Text>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={oneDiamond}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 1 Diamond</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiveDiamonds}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 5 Diamonds</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={tenDiamonds}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 10 Diamonds</Text>
       </TouchableOpacity>
     </View>
   );
@@ -90,6 +133,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
+    margin: 3,
   },
   text: {
     fontSize: 16,
