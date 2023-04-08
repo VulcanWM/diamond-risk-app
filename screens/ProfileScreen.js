@@ -2,28 +2,30 @@ import { StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, TouchableOpacity } from "../components/Themed";
 import { useEffect, useState } from "react";
+import { useIsFocused } from '@react-navigation/native';
 
 
 
 export default function ProfileScreen() {
   const [score, setScore] = useState(0);
   const [highscore, setHighscore] = useState(0)
-  useEffect(() => {
-    const fetchScoreData = async () => {
-      const value = await AsyncStorage.getItem('score')
-      if (value != null){
-        setScore(value)
-      }
+  const fetchScoreData = async () => {
+    const value = await AsyncStorage.getItem('score')
+    if (value != null){
+      setScore(value)
     }
-    const fetchHighScoreData = async () => {
-      const value = await AsyncStorage.getItem('highscore')
-      if (value != null){
-        setHighscore(value)
-      }
+  }
+  const fetchHighScoreData = async () => {
+    const value = await AsyncStorage.getItem('highscore')
+    if (value != null){
+      setHighscore(value)
     }
+  }
+  const isFocused = useIsFocused();
+  useEffect(() => { 
     fetchScoreData()
     fetchHighScoreData()
-  }, [])
+  }, [isFocused])
   
   return (
     <View style={styles.container}>
