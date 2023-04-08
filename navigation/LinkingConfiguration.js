@@ -13,7 +13,7 @@ export default {
         screens: {
           Game: {
             screens: {
-              GameScreen: "game",
+              GameScreen: "",
             },
           },
           Profile: {
