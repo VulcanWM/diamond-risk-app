@@ -83,7 +83,36 @@ export default function GameScreen() {
       setMsg("You successfully caught 10 diamonds!")
     }
   }
-  
+  function twentyDiamonds(){
+    let randomNumber = Math.floor(Math.random() * 5) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(20)
+      setMsg("You successfully caught 20 diamonds!")
+    }
+  }
+  function fiftyDiamonds(){
+    let randomNumber = Math.floor(Math.random() * 4) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(50)
+      setMsg("You successfully caught 50 diamonds!")
+    }
+  }
+  function hundredDiamonds(){
+    let randomNumber = Math.floor(Math.random() * 2) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police!")
+    } else {
+      increaseScore(100)
+      setMsg("You successfully caught 100 diamonds!")
+    }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Diamond Risk</Text>
@@ -100,6 +129,15 @@ export default function GameScreen() {
       </TouchableOpacity>
       <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={tenDiamonds}>
         <Text lightColor="white" darkColor="black" style={styles.text}>Rob 10 Diamonds</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={twentyDiamonds}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 20 Diamonds</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiftyDiamonds}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 50 Diamonds</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={hundredDiamonds}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 100 Diamonds</Text>
       </TouchableOpacity>
     </View>
   );
