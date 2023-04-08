@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function GameScreen() {
   const [score, setScore] = useState(0);
   const [highscore, setHighscore] = useState(0)
+  const [health, setHealth] = useState(50)
   const [msg, setMsg] = useState("")
   useEffect(() => {
     const fetchScoreData = async () => {
@@ -22,8 +23,15 @@ export default function GameScreen() {
         setHighscore(parseInt(value))
       }
     }
+    const fetchHealthData = async () => {
+      const value = await AsyncStorage.getItem('health')
+      if (value != null){
+        setHealth(parseInt(value))
+      }
+    }
     fetchScoreData()
     fetchHighScoreData()
+    fetchHealthData()
   }, [])
 
   const saveScore = async (value) => {
@@ -120,6 +128,7 @@ export default function GameScreen() {
       <Text>{msg}</Text>
       <Text>{'\n'}</Text>
       <Text>Score: {score}</Text>
+      <Text>Health: {health}</Text>
       <Text>{'\n'}</Text>
       <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={oneDiamond}>
         <Text lightColor="white" darkColor="black" style={styles.text}>Rob 1 Diamond</Text>
