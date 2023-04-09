@@ -12,7 +12,15 @@ export default function ProfileScreen() {
   const [gun, setGun] = useState(0)
   const [vault, setVault] = useState(0)
   const [health, setHealth] = useState(50)
+  const [name, setName] = useState("")
 
+  const saveData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+    } catch (e) {
+      // saving error
+    }
+  }
   const fetchScoreData = async () => {
     const value = await AsyncStorage.getItem('score')
     if (value != null){
@@ -49,6 +57,16 @@ export default function ProfileScreen() {
       setHealth(value)
     }
   }
+  const fetchNameData = async () => {
+    const value = await AsyncStorage.getItem('name')
+    if (value != null && value != ""){
+      setName(value)
+    } else {
+      var randomName = "Robber" + Math.floor(10000 + Math.random() * 90000).toString()
+      saveData("name", randomName)
+      setName(name)
+    }
+  }
   const isFocused = useIsFocused();
   useEffect(() => { 
     fetchScoreData()
@@ -57,6 +75,7 @@ export default function ProfileScreen() {
     fetchGunData()
     fetchVaultData()
     fetchHealthData()
+    fetchNameData()
   }, [isFocused])
   /*
   Text("Highscore of all games: " + String(highscore))
@@ -67,7 +86,7 @@ export default function ProfileScreen() {
         Text("Weapon:" + weapon) */
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your Profile</Text>
+      <Text style={styles.title}>{name}'s Profile</Text>
       <Text>{'\n'}</Text>
       <Text>Current Score: {score}</Text>
       <Text>Current Health: {health}</Text>
@@ -88,6 +107,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "bold",
+    textAlign: "center",
   },
   button: {
     alignItems: 'center',

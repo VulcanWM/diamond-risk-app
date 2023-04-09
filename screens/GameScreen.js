@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, TouchableOpacity } from "../components/Themed";
 import { useEffect, useState } from "react";
-
+import { useIsFocused } from '@react-navigation/native';
 
 
 export default function GameScreen() {
@@ -10,6 +10,15 @@ export default function GameScreen() {
   const [highscore, setHighscore] = useState(0)
   const [health, setHealth] = useState(50)
   const [msg, setMsg] = useState("")
+  const [name, setName] = useState("")
+  const isFocused = useIsFocused();
+  const saveData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+    } catch (e) {
+      // saving error
+    }
+  }
   useEffect(() => {
     const fetchScoreData = async () => {
       const value = await AsyncStorage.getItem('score')
@@ -29,10 +38,21 @@ export default function GameScreen() {
         setHealth(parseInt(value))
       }
     }
+    const fetchNameData = async () => {
+      const value = await AsyncStorage.getItem('name')
+      if (value != null && value != ""){
+        setName(value)
+      } else {
+        var randomName = "Robber" + Math.floor(10000 + Math.random() * 90000).toString()
+        saveData("name", randomName)
+        setName(name)
+      }
+    }
     fetchScoreData()
     fetchHighScoreData()
     fetchHealthData()
-  }, [])
+    fetchNameData()
+  }, [isFocused])
 
   const saveScore = async (value) => {
     try {
@@ -103,7 +123,7 @@ export default function GameScreen() {
   }
   function fiftyDiamonds(){
     let randomNumber = Math.floor(Math.random() * 4) + 1;
-    if (randomNumber == 1){
+    if (randomNumber == 1 || randomNumber == 2){
       resetScore()
       setMsg("You got caught by the police!")
     } else {
@@ -111,18 +131,9 @@ export default function GameScreen() {
       setMsg("You successfully caught 50 diamonds!")
     }
   }
-  function hundredDiamonds(){
-    let randomNumber = Math.floor(Math.random() * 2) + 1;
-    if (randomNumber == 1){
-      resetScore()
-      setMsg("You got caught by the police!")
-    } else {
-      increaseScore(100)
-      setMsg("You successfully caught 100 diamonds!")
-    }
-  }
   return (
     <View style={styles.container}>
+      <Text>Welcome {name} to</Text>
       <Text style={styles.title}>Diamond Risk</Text>
       <Text>{'\n'}</Text>
       <Text>{msg}</Text>
@@ -144,9 +155,6 @@ export default function GameScreen() {
       </TouchableOpacity>
       <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiftyDiamonds}>
         <Text lightColor="white" darkColor="black" style={styles.text}>Rob 50 Diamonds</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={hundredDiamonds}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 100 Diamonds</Text>
       </TouchableOpacity>
     </View>
   );
