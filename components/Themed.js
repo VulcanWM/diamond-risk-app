@@ -4,7 +4,8 @@ import {
   Text as DefaultText,
   useColorScheme,
   View as DefaultView, 
-  TouchableOpacity as DefaultTouchableOpacity
+  TouchableOpacity as DefaultTouchableOpacity,
+  TextInput as DefaultTextInput
 } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -33,7 +34,6 @@ export function View(props) {
     { light: lightColor, dark: darkColor },
     "background"
   );
-
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
@@ -45,4 +45,17 @@ export function TouchableOpacity(props) {
   );
 
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function TextInput(props) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+  const color = useThemeColor(
+    { light: darkColor, dark: lightColor },
+    "placeholderTextColor"
+  );
+  return <DefaultTextInput placeholderTextColor={color} style={[{ backgroundColor }, style]} {...otherProps} />;
 }

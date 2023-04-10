@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Text, View, TouchableOpacity } from "../components/Themed";
+import { Text, View, TouchableOpacity, TextInput } from "../components/Themed";
 import { useEffect, useState } from "react";
 import { useIsFocused } from '@react-navigation/native';
 
@@ -13,6 +13,14 @@ export default function ProfileScreen() {
   const [vault, setVault] = useState(0)
   const [health, setHealth] = useState(50)
   const [name, setName] = useState("")
+  const [text, onChangeText] = useState(name);
+
+  function changeName() {
+    if (text != ""){
+      saveData("name", text)
+      setName(text)
+    } 
+  }
 
   const saveData = async (key, value) => {
     try {
@@ -61,10 +69,12 @@ export default function ProfileScreen() {
     const value = await AsyncStorage.getItem('name')
     if (value != null && value != ""){
       setName(value)
+      onChangeText(value)
     } else {
       var randomName = "Robber" + Math.floor(10000 + Math.random() * 90000).toString()
       saveData("name", randomName)
-      setName(name)
+      setName(randomName)
+      onChangeText(randomName)
     }
   }
   const isFocused = useIsFocused();
@@ -77,13 +87,7 @@ export default function ProfileScreen() {
     fetchHealthData()
     fetchNameData()
   }, [isFocused])
-  /*
-  Text("Highscore of all games: " + String(highscore))
-        Text("Diamonds in current game:" + String(diamonds))
-        Text("Guns left:" + String(gun))
-        Text("Vaults:" + String(vault))
-        Text("Health:" + String(health))
-        Text("Weapon:" + weapon) */
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}'s Profile</Text>
@@ -94,6 +98,20 @@ export default function ProfileScreen() {
       <Text>Guns left: {gun}</Text>
       <Text>Vaults: {vault}</Text>
       <Text>Highscore: {highscore}</Text>
+      <Text>{'\n'}</Text>
+      <View lightColor="lightblue" darkColor="blue" borderRadius={20} padding={5}>
+        <TextInput
+          lightColor="black" 
+          darkColor="white"
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder="Robber Name"
+        />
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={changeName}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>change name</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -109,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  button: {
+  TouchableOpacity: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -122,5 +140,20 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    margin: 3,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
