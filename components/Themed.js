@@ -57,5 +57,5 @@ export function TextInput(props) {
     { light: darkColor, dark: lightColor },
     "placeholderTextColor"
   );
-  return <DefaultTextInput placeholderTextColor={color} style={[{ backgroundColor }, style]} {...otherProps} />;
+  return <DefaultTextInput placeholderTextColor={color} color={color} style={[{ backgroundColor }, style]} {...otherProps} />;
 }
