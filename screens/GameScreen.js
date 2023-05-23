@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, View, TouchableOpacity } from "../components/Themed";
 import { useEffect, useState } from "react";
 import { useIsFocused } from '@react-navigation/native';
+import {Modal} from 'react-native';
 
 
 export default function GameScreen() {
@@ -15,6 +16,8 @@ export default function GameScreen() {
   const [health, setHealth] = useState(50)
   const [name, setName] = useState("")
   const [text, onChangeText] = useState(name);
+  const [modalText, setModalText] = useState("")
+  const [modalVisible, setModalVisible] = useState(false);
 
   const saveData = async (key, value) => {
     try {
@@ -204,12 +207,37 @@ export default function GameScreen() {
       setMsg("You slept and got " + healthAddition + " health!")
     }
   }
+  function rules(){
+    setModalText("You are a very advanced robber. But even advanced robbers have a chance of going to jail.\n\nYou have 50 health at the beginning out the game, and the maximum amount of health is 100. You can get health by sleeping.\n\nTo win the game, you have to get to as many diamonds as you can before dying or getting caught. But if you get caught by the police, you lose all your diamonds and go to jail, unless you have some kind of vault where you keep your diamond, or have a weapon that will knock the police out.")
+    setModalVisible(true)
+  }
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{modalText}</Text>
+            <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
+              <Text lightColor="white" darkColor="black" style={styles.text}>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <Text>Welcome {name} to</Text>
       <Text style={styles.title}>Diamond Risk</Text>
-      <Text>{'\n'}</Text>
-      <Text>{msg}</Text>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={rules}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Rules</Text>
+      </TouchableOpacity>
+      {msg != ""?
+      <><Text>{'\n'}</Text>
+      <Text>{msg}</Text></>
+      :<></>}
       <Text>{'\n'}</Text>
       <Text>Score: {score}</Text>
       <Text>Health: {health}</Text>
@@ -271,5 +299,21 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
