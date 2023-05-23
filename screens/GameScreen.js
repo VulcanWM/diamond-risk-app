@@ -189,6 +189,21 @@ export default function GameScreen() {
       setMsg("You successfully caught 50 diamonds!")
     }
   }
+  function sleep(){
+    let randomNumber = Math.floor(Math.random() * 4) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You got caught by the police while sleeping!")
+    } else {
+      let healthAddition = Math.floor(Math.random() * 20) + 1;
+      let newHealth = health + healthAddition
+      setHealth(newHealth)
+      if (newHealth > 100){
+        setHealth(100)
+      }
+      setMsg("You slept and got " + healthAddition + " health!")
+    }
+  }
   return (
     <View style={styles.container}>
       <Text>Welcome {name} to</Text>
@@ -213,6 +228,9 @@ export default function GameScreen() {
       </TouchableOpacity>
       <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiftyDiamonds}>
         <Text lightColor="white" darkColor="black" style={styles.text}>Rob 50 Diamonds</Text>
+      </TouchableOpacity>
+      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={sleep}>
+        <Text lightColor="white" darkColor="black" style={styles.text}>Sleep</Text>
       </TouchableOpacity>
     </View>
   );
