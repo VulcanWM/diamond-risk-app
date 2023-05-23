@@ -211,6 +211,10 @@ export default function GameScreen() {
     setModalText("You are a very advanced robber. But even advanced robbers have a chance of going to jail.\n\nYou have 50 health at the beginning out the game, and the maximum amount of health is 100. You can get health by sleeping.\n\nTo win the game, you have to get to as many diamonds as you can before dying or getting caught. But if you get caught by the police, you lose all your diamonds and go to jail, unless you have some kind of vault where you keep your diamond, or have a weapon that will knock the police out.")
     setModalVisible(true)
   }
+  function risks(){
+    setModalText("1 Diamond\n")
+    setModalVisible(true)
+  }
   return (
     <View style={styles.container}>
       <Modal
@@ -224,16 +228,21 @@ export default function GameScreen() {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{modalText}</Text>
             <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
-              <Text lightColor="white" darkColor="black" style={styles.text}>Hide Modal</Text>
+              <Text lightColor="white" darkColor="black" style={styles.text}>Hide</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
       <Text>Welcome {name} to</Text>
       <Text style={styles.title}>Diamond Risk</Text>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={rules}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rules</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection:"row" }}>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={rules}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>Rules</Text>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={risks}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>Risks</Text>
+        </TouchableOpacity>
+      </View>
       {msg != ""?
       <><Text>{'\n'}</Text>
       <Text>{msg}</Text></>
