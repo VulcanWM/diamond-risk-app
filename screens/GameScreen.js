@@ -212,7 +212,7 @@ export default function GameScreen() {
     setModalVisible(true)
   }
   function risks(){
-    setModalText("1 Diamond\n")
+    setModalText("Rob a bank with 1 diamond: Here you have a 1/100 chance of getting caught\n\nRob a bank with 5 diamonds: Here you have a 1/20 chance of getting caught\n\nRob a bank with 10 diamonds: Here you have a 1/10 chance of getting caught\n\nRob a bank with 20 diamonds: Here you have a 1/5 chance of getting caught\n\nRob a bank with 50 diamonds: Here you have a 1/2 chance of getting caught.")
     setModalVisible(true)
   }
   return (
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     elevation: 5,
   },
   modalText: {
