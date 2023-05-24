@@ -201,10 +201,27 @@ export default function GameScreen() {
       let healthAddition = Math.floor(Math.random() * 20) + 1;
       let newHealth = health + healthAddition
       setHealth(newHealth)
+      saveData("health", newHealth.toString())
       if (newHealth > 100){
         setHealth(100)
+        saveData("health", "100")
       }
       setMsg("You slept and got " + healthAddition + " health!")
+    }
+  }
+  function fakeCalling(){
+    const names = ["Bob", "Billy", "Nathaniel", "Liam", "Noah", "William", "Alex", "James", "Lucas", "Luke", "Percy", "Harry", "Oliver", "Grover", "Ronald"]
+    const name = names[Math.floor(Math.random() * names.length)];
+    const ideas = ["getting free pizzas", "won the lottery", "won a free holiday", "won a free car"]
+    const idea = ideas[Math.floor(Math.random() * ideas.length)];
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    if (randomNumber == 1){
+      resetScore()
+      setMsg("You decide to call a random guy called " + name + " saying that he's " + idea + "." + "\nYou got caught by the police!")
+    } else {
+      let aod = Math.floor(Math.random() * 50) + 1;
+      setMsg("You decide to call a random guy called " + name + " saying that he's " + idea + "." + "\nHe gave you his bank details and you got " + aod + " diamonds.")
+      increaseScore(aod)
     }
   }
   function rules(){
@@ -248,27 +265,36 @@ export default function GameScreen() {
       <Text>{msg}</Text></>
       :<></>}
       <Text>{'\n'}</Text>
-      <Text>Score: {score}</Text>
+      <Text>Diamonds: {score}</Text>
       <Text>Health: {health}</Text>
       <Text>{'\n'}</Text>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={oneDiamond}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 1 Diamond</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiveDiamonds}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 5 Diamonds</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={tenDiamonds}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 10 Diamonds</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={twentyDiamonds}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 20 Diamonds</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiftyDiamonds}>
-        <Text lightColor="white" darkColor="black" style={styles.text}>Rob 50 Diamonds</Text>
-      </TouchableOpacity>
-      <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={sleep}>
+      <Text style={styles.subTitle}>Rob:</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={oneDiamond}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>1 Diamond</Text>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiveDiamonds}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>5 Diamonds</Text>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={tenDiamonds}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>10 Diamonds</Text>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={twentyDiamonds}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>20 Diamonds</Text>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fiftyDiamonds}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>50 Diamonds</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.subTitle}>{'\n'}Other Risks:</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={sleep}>
         <Text lightColor="white" darkColor="black" style={styles.text}>Sleep</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity lightColor="black" darkColor="white" style={styles.button} onPress={fakeCalling}>
+          <Text lightColor="white" darkColor="black" style={styles.text}>Fake Call</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -282,6 +308,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "bold",
+  },
+  subTitle: {
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   square: {
     height: '50%',
@@ -324,5 +354,10 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
 });
